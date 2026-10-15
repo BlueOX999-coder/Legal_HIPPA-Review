@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legal Issues in Nursing — NCLEX Study Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#EFF3F2; --card:#FFFFFF; --ink:#132320; --ink-soft:#4A5C58;
+  --rule:#D3DCD9; --rule-soft:#E4EAE8;
+  --right:#146B54; --right-bg:#E3F1EC;
+  --wrong:#9A3227; --wrong-bg:#F8E6E3;
+  --note:#54399B; --note-bg:#EDE8F8;
+  --flagc:#8A6100; --flag-bg:#FBF0D8;
+  --chip:#E6ECEA; --chip-on:#132320; --chip-on-ink:#FFFFFF;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --page:#0F1615; --card:#18211F; --ink:#E7EDEB; --ink-soft:#9DAEAA;
+  --rule:#2C3A37; --rule-soft:#232E2C;
+  --right:#58C6A5; --right-bg:#123029;
+  --wrong:#E48B80; --wrong-bg:#33201D;
+  --note:#B9A3F0; --note-bg:#241C3B;
+  --flagc:#E0B64A; --flag-bg:#2E2512;
+  --chip:#232E2C; --chip-on:#E7EDEB; --chip-on-ink:#0F1615;
+}}
+:root[data-theme="dark"]{
+  --page:#0F1615; --card:#18211F; --ink:#E7EDEB; --ink-soft:#9DAEAA;
+  --rule:#2C3A37; --rule-soft:#232E2C;
+  --right:#58C6A5; --right-bg:#123029;
+  --wrong:#E48B80; --wrong-bg:#33201D;
+  --note:#B9A3F0; --note-bg:#241C3B;
+  --flagc:#E0B64A; --flag-bg:#2E2512;
+  --chip:#232E2C; --chip-on:#E7EDEB; --chip-on-ink:#0F1615;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55}
+.wrap{max-width:52rem;margin:0 auto;padding:0 1.15rem 6rem}
+h1,h2,h3{font-family:"Newsreader",Georgia,serif;font-weight:500;letter-spacing:-.01em}
+button{font:inherit;cursor:pointer}
+.hidden{display:none !important}
+
+/* masthead + mode tabs */
+header.top{padding:2.6rem 0 1.1rem}
+header.top h1{font-size:clamp(1.65rem,4.6vw,2.5rem);line-height:1.1;margin:0 0 .4rem;max-width:32ch}
+header.top p{margin:0;color:var(--ink-soft);font-size:.92rem;max-width:60ch}
+.modes{display:flex;gap:.3rem;border-bottom:1px solid var(--rule);margin-top:1.3rem}
+.mode{background:none;border:none;padding:.55rem .9rem;color:var(--ink-soft);font-size:.93rem;
+  font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px}
+.mode[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--right)}
+
+/* shared bits */
+.chips{display:flex;gap:.35rem;flex-wrap:wrap}
+.chip{background:var(--chip);color:var(--ink);border:none;border-radius:2rem;
+  padding:.3rem .72rem;font-size:.8rem;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink)}
+.btn{background:var(--ink);color:var(--card);border:none;border-radius:.4rem;
+  padding:.5rem 1.05rem;font-size:.9rem;font-weight:500}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.btn.small{padding:.3rem .7rem;font-size:.82rem}
+select,input[type=number]{font:inherit;font-size:.88rem;color:var(--ink);background:var(--card);
+  border:1px solid var(--rule);border-radius:.35rem;padding:.32rem .45rem}
+.toolbar{position:sticky;top:0;z-index:20;background:var(--page);border-bottom:1px solid var(--rule);
+  padding:.7rem 0;display:flex;flex-wrap:wrap;gap:.5rem .6rem;align-items:center}
+.toolbar label{font-size:.8rem;color:var(--ink-soft)}
+select.jump{max-width:min(21rem,100%)}
+.tally{margin-left:auto;font-size:.82rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.tally b{color:var(--ink);font-weight:600}
+
+/* question card */
+section.slide{padding-top:2.4rem}
+section.slide>h2{font-size:1.3rem;margin:0 0 .1rem}
+section.slide>.meta{font-size:.78rem;color:var(--ink-soft);margin:0 0 1rem}
+article.q{background:var(--card);border:1px solid var(--rule-soft);border-radius:.55rem;
+  padding:1.1rem 1.15rem 1.15rem;margin-bottom:.85rem}
+.qhead{display:flex;gap:.55rem;align-items:baseline;margin-bottom:.5rem;flex-wrap:wrap}
+.qnum{font-size:.78rem;font-weight:600;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.qtype{font-size:.7rem;font-weight:600;color:var(--ink-soft);border:1px solid var(--rule);
+  border-radius:.3rem;padding:.06rem .38rem}
+.qslide{font-size:.7rem;color:var(--ink-soft)}
+.stem{font-family:"Newsreader",Georgia,serif;font-size:1.09rem;line-height:1.45;margin:0 0 .8rem;max-width:64ch}
+ul.opts{list-style:none;margin:0 0 .8rem;padding:0;display:flex;flex-direction:column;gap:.3rem}
+.opt{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;background:transparent;
+  border:1px solid var(--rule-soft);border-radius:.4rem;padding:.5rem .65rem;color:var(--ink);
+  font-size:.94rem;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--rule)}
+.opt:focus-visible{outline:2px solid var(--right);outline-offset:1px}
+.opt .box{flex:none;width:1.15rem;height:1.15rem;margin-top:.12rem;border:1px solid var(--rule);
+  border-radius:.25rem;display:grid;place-items:center;font-size:.72rem;font-weight:600;color:var(--ink-soft)}
+.opt.round .box{border-radius:50%}
+.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--chip)}
+.opt[aria-pressed="true"] .box{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.opt.correct{border-color:var(--right);background:var(--right-bg)}
+.opt.correct .box{background:var(--right);border-color:var(--right);color:var(--card)}
+.opt.missed{border-color:var(--right);border-style:dashed}
+.opt.incorrect{border-color:var(--wrong);background:var(--wrong-bg)}
+.opt.incorrect .box{background:var(--wrong);border-color:var(--wrong);color:var(--card)}
+.opt:disabled{cursor:default;opacity:1}
+.bank{border:1px dashed var(--rule);border-radius:.4rem;padding:.6rem .75rem;margin:0 0 .8rem;font-size:.9rem}
+.bank ol{margin:.25rem 0 0;padding-left:1.35rem}
+.bank .lbl{font-size:.78rem;color:var(--ink-soft)}
+.pairs{display:flex;flex-direction:column;gap:.45rem;margin:0 0 .8rem}
+.pair{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.pair .prompt{flex:1 1 12rem;font-size:.94rem}
+.pair .verdict{font-size:.82rem;font-weight:600}
+.pair.ok .verdict{color:var(--right)}
+.pair.no .verdict{color:var(--wrong)}
+.rat{margin-top:.8rem;border-top:1px solid var(--rule-soft);padding-top:.7rem;font-size:.92rem;
+  color:var(--ink-soft);max-width:66ch}
+.rat .ans{color:var(--ink);font-weight:600;display:block;margin-bottom:.2rem}
+.note{margin-top:.7rem;border-left:3px solid var(--note);background:var(--note-bg);
+  padding:.55rem .75rem;border-radius:0 .35rem .35rem 0;font-size:.88rem;max-width:66ch}
+.note .t{color:var(--note);font-weight:600}
+
+/* exam setup */
+.panel{background:var(--card);border:1px solid var(--rule-soft);border-radius:.55rem;
+  padding:1.15rem 1.2rem;margin:1.6rem 0}
+.panel h2{font-size:1.25rem;margin:0 0 .3rem}
+.panel .sub{color:var(--ink-soft);font-size:.9rem;margin:0 0 1.1rem;max-width:60ch}
+.field{margin-bottom:1.6rem}
+.field>.h,.panel>.h{font-size:1rem;font-weight:600;margin-bottom:.15rem}
+.panel>.h{margin:1.3rem 0 .2rem;font-size:.88rem}
+main>h2{font-size:1.4rem;margin:2.4rem 0 .15rem}
+.field>.d{font-size:.84rem;color:var(--ink-soft);margin-bottom:.6rem;max-width:58ch}
+.choices{display:flex;flex-direction:column;gap:.45rem}
+.choice{display:flex;gap:.7rem;align-items:flex-start;width:100%;text-align:left;
+  background:transparent;border:1px solid var(--rule);border-radius:.45rem;
+  padding:.7rem .85rem;color:var(--ink);font-size:.95rem}
+.choice:hover:not(:disabled){border-color:var(--ink-soft)}
+.choice:focus-visible{outline:2px solid var(--right);outline-offset:1px}
+.choice[aria-pressed="true"]{border-color:var(--right);background:var(--right-bg)}
+.choice .dot{flex:none;width:1.1rem;height:1.1rem;margin-top:.2rem;border-radius:50%;
+  border:1px solid var(--rule);display:grid;place-items:center}
+.choice[aria-pressed="true"] .dot{border-color:var(--right)}
+.choice[aria-pressed="true"] .dot::after{content:"";width:.55rem;height:.55rem;
+  border-radius:50%;background:var(--right)}
+.choice .t{font-weight:500}
+.choice .s{display:block;font-size:.83rem;color:var(--ink-soft);font-weight:400;margin-top:.1rem}
+.choice:disabled{opacity:.5;cursor:not-allowed}
+.picker{margin:.5rem 0 .1rem 1.8rem}
+.picker select{max-width:min(26rem,100%);width:100%}
+.sizes{display:flex;gap:.4rem;flex-wrap:wrap}
+.size{flex:1 1 4.5rem;min-width:4rem;background:transparent;border:1px solid var(--rule);
+  border-radius:.45rem;padding:.65rem .4rem;text-align:center;font-weight:500;color:var(--ink);font-size:.95rem}
+.size:hover:not([aria-pressed="true"]){border-color:var(--ink-soft)}
+.size[aria-pressed="true"]{border-color:var(--right);background:var(--right-bg);color:var(--right)}
+label.cb{display:flex;gap:.5rem;align-items:flex-start;font-size:.9rem;margin:.35rem 0}
+input[type=checkbox]{margin:.28rem 0 0;accent-color:var(--right);width:1rem;height:1rem;flex:none}
+details.more{margin-top:.4rem;border-top:1px solid var(--rule-soft);padding-top:.9rem}
+details.more summary{font-size:.86rem;color:var(--ink-soft);cursor:pointer;width:fit-content}
+details.more[open] summary{margin-bottom:.7rem}
+.startbar{border-top:1px solid var(--rule);margin-top:1.3rem;padding-top:1.1rem}
+.startbar .btn{padding:.6rem 1.5rem;font-size:.95rem}
+.poolinfo{font-size:.85rem;color:var(--ink-soft);margin-top:.6rem;max-width:56ch}
+.poolinfo b{color:var(--ink)}
+.warn{color:var(--flagc);font-size:.84rem;background:var(--flag-bg);border-radius:.35rem;
+  padding:.45rem .65rem;margin-top:.6rem;max-width:56ch}
+.poolbar{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;margin-top:1.2rem}
+
+/* exam runner */
+.examtop{position:sticky;top:0;z-index:20;background:var(--page);border-bottom:1px solid var(--rule);
+  padding:.65rem 0;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.prog{flex:1 1 8rem;height:.32rem;background:var(--rule-soft);border-radius:2rem;overflow:hidden;min-width:6rem}
+.prog i{display:block;height:100%;background:var(--right);width:0}
+.examtop .pos{font-size:.84rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.timer{font-size:.84rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.navgrid{display:flex;flex-wrap:wrap;gap:.25rem;margin:1.2rem 0}
+.navbtn{width:2rem;height:2rem;border:1px solid var(--rule);background:var(--card);border-radius:.3rem;
+  font-size:.76rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;padding:0}
+.navbtn.done{background:var(--chip);color:var(--ink);border-color:var(--rule)}
+.navbtn.flag{border-color:var(--flagc);color:var(--flagc)}
+.navbtn.here{outline:2px solid var(--right);outline-offset:1px}
+.navbtn.ok{background:var(--right-bg);border-color:var(--right);color:var(--right)}
+.navbtn.bad{background:var(--wrong-bg);border-color:var(--wrong);color:var(--wrong)}
+.runnav{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-top:1rem}
+.runnav .sp{margin-left:auto}
+
+/* results */
+.scorebig{font-family:"Newsreader",Georgia,serif;font-size:3.4rem;line-height:1;margin:.2rem 0 .1rem}
+.scoresub{color:var(--ink-soft);font-size:.95rem;margin-bottom:1.2rem}
+table.bd{width:100%;border-collapse:collapse;font-size:.88rem;margin:.4rem 0 0}
+table.bd th,table.bd td{text-align:left;padding:.35rem .5rem;border-bottom:1px solid var(--rule-soft)}
+table.bd th{font-size:.78rem;color:var(--ink-soft);font-weight:600}
+table.bd td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto}
+footer.end{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);
+  font-size:.84rem;color:var(--ink-soft);max-width:62ch}
+footer.end button{background:none;border:none;color:var(--ink-soft);text-decoration:underline;
+  padding:0;font-size:inherit}
+@media (prefers-reduced-motion: no-preference){
+  .rat,.note{animation:rise .2s ease-out}
+  @keyframes rise{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+  .prog i{transition:width .25s ease}
+}
+@media (max-width:30rem){
+  .tally{margin-left:0;width:100%}
+  .stem{font-size:1.04rem}
+  .scorebig{font-size:2.8rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Legal Issues in Nursing</h1>
+  <p><b id="total"></b> questions built from the Legal Issues lecture, as multiple choice, select all that apply and matching. Study by section, or build yourself a custom exam.</p>
+  <div class="modes" role="tablist">
+    <button class="mode" role="tab" data-mode="study" aria-selected="true">Study by section</button>
+    <button class="mode" role="tab" data-mode="exam" aria-selected="false">Take a practice exam</button>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer class="end">
+  Built from the <em>Legal Issues</em> lecture slides and speaker notes.
+  Your exam history is saved in this browser only &mdash; nothing is uploaded, and each person using this
+  link has their own separate history. <button id="wipe">Clear my history</button>
+</footer>
+
+</div>
+<script>
+const QUESTIONS = [{"s": 1, "t": "match", "q": "Match each type of law to what it concerns.", "p": [["Common law", "Comes from court decisions and precedents"], ["Criminal law", "Offenses against society, with prison time possible"], ["Civil law", "Disputes between individuals, usually settled with money"]], "r": "Common law comes from court decisions and precedents. Criminal law concerns offenses against society that can result in a felony or misdemeanor, both of which can result in prison time. Civil law addresses disputes between individuals and most frequently results in financial payments.", "id": "s1-1"}, {"s": 1, "t": "sata", "q": "Which are examples of legislative law, also called statutes? Select all that apply.", "o": ["The Nurse Practice Act", "The Good Samaritan Act", "Child and adult abuse laws", "Advance directives", "Precedent set by an appellate court ruling", "A hospital's own policy and procedure manual"], "a": [0, 1, 2, 3], "r": "The legislative or statutory laws listed on the slide are the Nurse Practice Act, the Good Samaritan Act, child and adult abuse laws, advance directives, sexual harassment law, and the Americans with Disabilities Act. Court precedent is common law, and facility policy is not legislation.", "id": "s1-2"}, {"s": 1, "t": "sata", "q": "Which items fall under common law on the slide? Select all that apply.", "o": ["Contract", "Misdemeanor", "Felony", "Torts", "The Nurse Practice Act", "Advance directives"], "a": [0, 1, 2, 3], "r": "The slide groups contract, misdemeanor, felony and torts under common law. The Nurse Practice Act and advance directives are legislative statutes.", "id": "s1-3"}, {"s": 2, "t": "mc", "q": "What is a tort?", "o": ["A criminal offense committed against society", "A civil wrong committed against another person", "A statute enacted by the state legislature", "A disciplinary action taken by a licensing board"], "a": [1], "r": "A tort is a civil wrong committed against another person. Torts may be intentional or unintentional.", "id": "s2-1"}, {"s": 2, "t": "sata", "q": "Which are common intentional torts? Select all that apply.", "o": ["Assault", "Battery", "False imprisonment", "Defamation", "Invasion of privacy", "Malpractice"], "a": [0, 1, 2, 3, 4], "r": "The common intentional torts are assault, battery, false imprisonment, defamation and invasion of privacy. Malpractice is an unintentional tort.", "id": "s2-2"}, {"s": 2, "t": "sata", "q": "Which are unintentional torts? Select all that apply.", "o": ["Negligence", "Malpractice", "Battery", "Defamation", "False imprisonment"], "a": [0, 1], "r": "The unintentional torts are negligence and malpractice. Battery, defamation and false imprisonment are intentional torts.", "id": "s2-3"}, {"s": 3, "t": "mc", "q": "What is negligence?", "o": ["Failing to act as a reasonably prudent person would", "Deliberately causing harm to another person", "Touching a person without their consent", "Threatening a person with an unwanted procedure"], "a": [0], "r": "Negligence occurs when a person fails to act as a reasonably prudent person would.", "id": "s3-1"}, {"s": 3, "t": "mc", "q": "What is malpractice?", "o": ["An intentional tort committed by a licensed professional", "Professional negligence", "A criminal act committed in the course of employment", "A breach of a written employment contract"], "a": [1], "r": "Malpractice is professional negligence.", "id": "s3-2"}, {"s": 3, "t": "sata", "q": "Which four elements are required to prove negligence? Select all that apply.", "o": ["Duty owed", "Breach of duty", "Injury occurred", "Injury resulted from the breach", "Intent to cause harm", "A written complaint to the licensing board"], "a": [0, 1, 2, 3], "r": "The four elements are duty owed, breach of duty, injury occurred, and injury resulted from the breach. Without all four elements, negligence is difficult to prove.", "id": "s3-3"}, {"s": 3, "t": "match", "q": "Match each element of malpractice to its statement on the slide.", "p": [["Duty owed", "The nurse owed a duty to the patient"], ["Breach of duty", "The nurse did not carry out the duty or breached it"], ["Injury occurred", "The patient was injured"], ["Causation", "The injury was caused by the nurse's failure to carry out that duty"]], "r": "Proof of negligence requires all four: the nurse owed a duty to the patient, the nurse did not carry out or breached that duty, the patient was injured, and the injury was caused by the nurse's failure to carry out the duty.", "id": "s3-4"}, {"s": 3, "t": "mc", "q": "What are standards of care used to determine?", "o": ["Which nurses are eligible for licensure renewal", "Whether nurses performed duties within accepted standards", "How much a facility must carry in liability coverage", "Which procedures require a signed consent form"], "a": [1], "r": "Standards of care are used as guidelines to determine whether nurses have performed their duties within accepted standards of care. Nurses who do not perform within acceptable standards may face legal action in the form of a malpractice lawsuit.", "id": "s3-5"}, {"s": 4, "t": "sata", "q": "Which are common negligent acts related to assessment and monitoring? Select all that apply.", "o": ["Failure to monitor in a timely fashion", "Failure to use proper equipment to monitor the patient", "Failure to document the monitoring", "Failure to notify the health care provider of problems", "Failure to follow orders", "Failure to obtain informed consent for a procedure"], "a": [0, 1, 2, 3, 4], "r": "Failure to assess or monitor, including making a nursing diagnosis, covers failure to monitor in a timely fashion, to use proper equipment, to document the monitoring, to notify the provider of problems, and to follow orders.", "id": "s4-1"}, {"s": 4, "t": "sata", "q": "Which other common negligent acts are listed? Select all that apply.", "o": ["Failure to follow the six rights of medication administration", "Failure to convey discharge instructions", "Failure to follow policies and procedures", "Failure to properly delegate and supervise", "Failure to attend annual competency training", "Failure to renew professional liability insurance"], "a": [0, 1, 2, 3], "r": "The other common negligent acts listed are failure to follow the six rights of medication administration, failure to convey discharge instructions, failure to ensure patient safety, failure to follow policies and procedures, and failure to properly delegate and supervise.", "id": "s4-2"}, {"s": 5, "t": "mc", "q": "What are nursing notes, as described in the context of a malpractice case?", "o": ["A record kept separately from the legal medical record", "Records that contain important information reviewed during a case", "A summary written after a lawsuit has been filed", "An internal report that attorneys cannot request"], "a": [1], "r": "Nursing notes contain important information that can be reviewed during a malpractice case.", "id": "s5-1"}, {"s": 5, "t": "mc", "q": "Who has a duty to maintain nursing records, and what establishes that duty?", "o": ["Individual nurses, under their own licensure rules", "All institutions, under statutes and accreditation regulations", "The state Board of Nursing, under the Nurse Practice Act", "The malpractice insurer, under the terms of the policy"], "a": [1], "r": "All institutions have a duty to maintain nursing records. Statutes and accreditation regulations establish these duties.", "id": "s5-2"}, {"s": 5, "t": "mc", "q": "Why do nursing notes matter in a malpractice case?", "o": ["They prove the nurse completed required documentation training", "They contain substantial evidence of the care the patient received", "They replace the need for the patient to testify in court", "They demonstrate that the facility followed its staffing plan"], "a": [1], "r": "Nursing notes contain substantial evidence needed to understand the care received by a patient.", "id": "s5-3"}, {"s": 5, "t": "mc", "q": "What is presumed if the records are lost or incomplete?", "o": ["The case is dismissed for lack of evidence", "That the care was negligent and caused the patient's injuries", "That the facility rather than the nurse is liable", "That the standard of care was met as documented"], "a": [1], "r": "If records are lost or incomplete, it is presumed that the care was negligent and therefore was the cause of the patient's injuries.", "id": "s5-4"}, {"s": 5, "t": "sata", "q": "Charting should have which qualities? Select all that apply.", "o": ["Timely", "Complete", "Accurate", "Factual", "Written in the nurse's own interpretive language", "Entered at the end of the shift in a single summary"], "a": [0, 1, 2, 3], "r": "There is an important saying, “If it wasn't charted it wasn't done,” so it is essential that charting is timely, complete, accurate and factual.", "id": "s5-5"}, {"s": 6, "t": "mc", "q": "What are standards of care, also called standards of practice or practice guidelines?", "o": ["Rules that set the penalty for each nursing violation", "Guidelines used to determine what a nurse should or should not do", "Contracts between the nurse and the employing facility", "Statutes written by each state legislature for nurses"], "a": [1], "r": "Standards of care, sometimes called standards of practice or practice guidelines, are guidelines used to determine what a nurse should or should not do.", "id": "s6-1"}, {"s": 6, "t": "sata", "q": "Which organizations develop standards of care? Select all that apply.", "o": ["State Boards of Nursing", "The American Nurses Association", "The National League for Nurses", "Quality and Safety Education for Nurses", "Health care organizations", "The Centers for Disease Control and Prevention"], "a": [0, 1, 2, 3, 4], "r": "Standards of care are developed by State Boards of Nursing, the American Nurses Association, the National League for Nurses, Quality and Safety Education for Nurses, and health care organizations.", "id": "s6-2"}, {"s": 6, "t": "sata", "q": "What does the American Nurses Association produce? Select all that apply.", "o": ["Professional standards, including policies and procedures", "Position papers addressing hot topics", "The Code of Ethics", "The NCLEX examination", "Accreditation surveys of hospitals"], "a": [0, 1, 2], "r": "The ANA produces professional standards, which include policies and procedures adopted by many healthcare facilities, position papers that address hot topics, and the Code of Ethics.", "id": "s6-3"}, {"s": 6, "t": "match", "q": "Match each organization to what it provides.", "p": [["National League for Nurses", "Professional development, teaching resources and research grants"], ["Quality and Safety Education for Nurses", "Improving quality and safety in pre-licensure nursing programs"], ["The Joint Commission", "Independent health care accreditation agency"], ["State Board of Nursing", "Defines the scope of practice in the State Practice Act"]], "r": "The NLN provides professional development, teaching resources and research grants. QSEN works to improve quality and safety in pre-licensure nursing programs. The Joint Commission is an independent healthcare accreditation agency. The State Board of Nursing defines scope of practice.", "id": "s6-4"}, {"s": 6, "t": "sata", "q": "Which documents do health care organizations develop to guide practice? Select all that apply.", "o": ["A job description, which defines an employee's scope of practice", "Policies and procedures, which detail expected behaviors", "The state Nurse Practice Act", "The ANA Code of Ethics", "The NCLEX test plan"], "a": [0, 1], "r": "Health care organizations develop policies and procedures that also guide practice. These include a job description, which defines an employee's scope of practice, and policies and procedures, which detail expected behaviors.", "id": "s6-5"}, {"s": 6, "t": "mc", "q": "What should a nurse do if she believes staffing levels are inadequate?", "o": ["Refuse the assignment and leave the unit", "Make a report to nursing administration", "Call the state Board of Nursing directly", "Document the concern and say nothing further"], "a": [1], "r": "If a nurse feels staffing is inadequate she must make a report to nursing administration. She cannot walk out; doing so could bring charges of patient abandonment.", "id": "s6-6"}, {"s": 6, "t": "mc", "q": "Can a nurse legally refuse to float to another unit?", "o": ["Yes, floating is always voluntary", "No, but the facility must provide orientation to that area", "Yes, if the nurse has less than one year of experience", "No, and no orientation to the area is required"], "a": [1], "r": "Floating is common practice and legally a nurse cannot refuse to float; however, the facility must provide orientation to the area the nurse is being floated to.", "id": "s6-7"}, {"s": 7, "t": "sata", "q": "Which are the CPCC Student Learning Outcomes? Select all that apply.", "o": ["Professionalism", "Teamwork and collaboration", "Client centered care", "Clinical judgment", "Evidence based practice", "Informatics"], "a": [0, 1, 2, 3, 4], "r": "The CPCC Student Learning Outcomes are professionalism, teamwork and collaboration, client centered care, clinical judgment, and evidence based practice.", "id": "s7-1"}, {"s": 7, "t": "mc", "q": "Which concept is the foundational principle of all of the CPCC Student Learning Outcomes?", "o": ["Professionalism", "Safety", "Advocacy", "Communication"], "a": [1], "r": "The concept of safety is the foundational principle of all of the CPCC Student Learning Outcomes. The safety statement is minimizing risk of harm to clients and providers through both system effectiveness and individual performance.", "id": "s7-2"}, {"s": 7, "t": "match", "q": "Match each CPCC Student Learning Outcome to its description.", "p": [["Professionalism", "Assumes accountability for personal and professional behaviors"], ["Teamwork and collaboration", "Functions effectively within nursing and inter-professional teams"], ["Client centered care", "Respects the client's preferences, values and needs"], ["Clinical judgment", "Critical thinking and interactive decision-making"], ["Evidence based practice", "Integrates best current evidence with clinical expertise"]], "r": "Professionalism assumes accountability for behaviors demonstrating moral, ethical and legal conduct. Teamwork and collaboration functions within teams. Client centered care respects preferences and recognizes the client as the full source of control. Clinical judgment assesses and prioritizes concerns. Evidence based practice integrates best current evidence.", "id": "s7-3"}, {"s": 8, "t": "mc", "q": "What are intentional torts?", "o": ["Careless acts that fall below the standard of care", "Willful acts that violate another's rights", "Criminal offenses prosecuted by the state", "Breaches of a facility's written policy"], "a": [1], "r": "Intentional torts are willful acts that violate another's rights.", "id": "s8-1"}, {"s": 8, "t": "match", "q": "Match each intentional tort to its definition.", "p": [["Assault", "A threatened action"], ["Battery", "Intentional touching without consent"], ["False imprisonment", "Restraining a patient without justification"], ["Slander", "A false oral statement"], ["Libel", "A false written statement"]], "r": "Assault is a threatened action, such as threatening to restrain a patient who refused a procedure. Battery is intentional touching of a person or their possessions without consent. False imprisonment is restraining a patient without justification. Slander is spoken and libel is written defamation of character.", "id": "s8-2"}, {"s": 8, "t": "mc", "q": "What is assault?", "o": ["Intentional touching without consent", "A threatened action", "A false statement that harms a reputation", "Restraining a patient without justification"], "a": [1], "r": "Assault is a threatened action, such as threatening to restrain a patient who has refused a procedure.", "id": "s8-3"}, {"s": 8, "t": "mc", "q": "What is battery?", "o": ["A threatened action against a person who has refused a procedure", "Intentional touching of a person or their possessions without consent", "Entering a person's room or handling their belongings uninvited", "Restraining a person against their will without any justification"], "a": [1], "r": "Battery is intentional touching of a person or their possessions without consent, such as giving an injection without the client's consent.", "id": "s8-4"}, {"s": 8, "t": "sata", "q": "Which actions are examples of invasion of privacy? Select all that apply.", "o": ["Entering a person's room without first knocking", "Touching a person's possessions without asking permission", "Threatening a patient with an unwanted procedure", "Giving a medication without the client's consent", "Restraining a patient without a provider's order"], "a": [0, 1], "r": "The examples given for invasion of privacy are entering a person's room without first knocking, and touching a person's possessions without asking permission.", "id": "s8-5"}, {"s": 8, "t": "mc", "q": "What do most agencies have policies about, related to invasion of privacy?", "o": ["Which staff may enter a patient's room during the night", "To whom and under what circumstances client information can be released", "How long a patient's belongings may be stored on the unit", "Which patients may refuse to be assigned a roommate"], "a": [1], "r": "Most agencies have policies regarding to whom and under what circumstances client information can be released.", "id": "s8-6"}, {"s": 9, "t": "mc", "q": "A nurse forgets to raise the side rails and the patient falls. What is this?", "o": ["Negligence", "Malpractice", "Battery", "False imprisonment"], "a": [1], "r": "This is malpractice. The nurse is a healthcare professional and a professional standard of care was not followed, which makes it professional negligence rather than ordinary negligence.", "id": "s9-1"}, {"s": 9, "t": "mc", "q": "A hospital visitor leaves a purse in the hallway and a patient trips over it. What is this?", "o": ["Negligence", "Malpractice", "Invasion of privacy", "Assault"], "a": [0], "r": "This is negligence. A person was careless, but no healthcare professional standard was involved, so it is not malpractice.", "id": "s9-2"}, {"s": 9, "t": "mc", "q": "A nursing student gives a medication without instructor supervision after being told not to perform the skill independently, and the patient is harmed. What is this?", "o": ["Negligence, because the student is not yet licensed", "Malpractice, because students are held to the same standards as licensed nurses", "Battery, because the student touched the patient", "An intentional tort, because the student was told not to do it"], "a": [1], "r": "Nursing students are held accountable to the same standards of care as licensed nurses, so a student who performs care she was told not to perform and harms the patient has committed malpractice.", "id": "s9-3"}, {"s": 9, "t": "mc", "q": "A nurse gives 20 units of insulin instead of the prescribed 2 units because she did not verify the order, and the patient becomes hypoglycemic and needs emergency treatment. What is this?", "o": ["Negligence", "Malpractice", "Battery", "An unavoidable adverse event"], "a": [1], "r": "This is malpractice, and all four elements are present: duty to safely administer medications, breach in failing to verify the order, injury in the hypoglycemia requiring emergency treatment, and causation.", "id": "s9-4"}, {"s": 9, "t": "mc", "q": "In the insulin scenario, why did the patient's hypoglycemia occur?", "o": ["The patient had not eaten before the dose was given", "The nurse administered the incorrect insulin dose", "The prescribed dose was too high for the patient's weight", "The insulin was given by the wrong route"], "a": [1], "r": "Causation in this scenario is that the patient's hypoglycemia occurred because the nurse administered the incorrect insulin dose.", "id": "s9-5"}, {"s": 9, "t": "mc", "q": "A competent patient refuses a blood transfusion despite understanding the risks. The nurse documents the refusal and notifies the provider, and the patient's condition worsens. Is this malpractice?", "o": ["Yes, because the patient was harmed", "No, because the nurse met her duty and there was no breach", "Yes, because the nurse did not obtain a second opinion", "No, because the patient signed a refusal form"], "a": [1], "r": "Malpractice requires all four elements. Here the nurse carried out her duty by documenting the refusal and notifying the provider, so there is no breach of duty, and a competent patient has the right to refuse treatment.", "id": "s9-6"}, {"s": 9, "t": "mc", "q": "A nurse threatens to place an NG tube on a patient who is refusing to eat. What is this an example of?", "o": ["False imprisonment", "Battery", "Negligence", "Assault"], "a": [3], "r": "This is assault, which is a threatened action. If the nurse actually placed the tube without consent it would be battery.", "id": "s9-7"}, {"s": 10, "t": "mc", "q": "What does HIPAA stand for?", "o": ["Health Information Privacy and Access Act", "Health Insurance Portability and Accountability Act", "Hospital Information Protection and Audit Act", "Health Industry Privacy and Accreditation Act"], "a": [1], "r": "HIPAA is the Health Insurance Portability and Accountability Act, enacted by Congress in 1996. It was designed to protect patient privacy and confidentiality.", "id": "s10-1"}, {"s": 10, "t": "sata", "q": "What are the stated purposes of HIPAA? Select all that apply.", "o": ["Minimize exclusion of preexisting conditions as a barrier to insurance", "Designate special rights for individuals who lose other health coverage", "Eliminate medical underwriting in group plans", "Require all providers to adopt an electronic health record", "Set a national cap on health insurance premiums"], "a": [0, 1, 2], "r": "The purposes of HIPAA are to minimize exclusion of preexisting conditions as a barrier to healthcare insurance, designate special rights for individuals who lose other health coverage, and eliminate medical underwriting in group plans.", "id": "s10-2"}, {"s": 10, "t": "mc", "q": "What is protected health information?", "o": ["Any information documented in the medical record", "Any information that can identify a patient", "Any information shared between two providers", "Any information a patient asks to keep private"], "a": [1], "r": "Protected health information, or PHI, includes any information that can identify a patient.", "id": "s10-3"}, {"s": 10, "t": "sata", "q": "What does the Privacy Rule do? Select all that apply.", "o": ["Protects information that identifies the individual", "Protects access to medical records", "Requires notice of privacy practices and confidential communications", "Limits use of medical information beyond providers directly involved in care", "Prohibits use of personal information for marketing", "Requires patients to pay for copies of their record"], "a": [0, 1, 2, 3, 4], "r": "The Privacy Rule protects information that identifies the individual and access to medical records, requires notice of privacy practices and the opportunity for confidential communications, limits use of medical information beyond sharing among providers directly involved in the patient's care, and prohibits use of personal information for marketing.", "id": "s10-4"}, {"s": 10, "t": "mc", "q": "Where can a patient file a formal complaint if they believe their privacy rights were violated?", "o": ["The state Board of Nursing or the facility's risk manager", "The violating entity or the Office for Civil Rights of DHHS", "The Joint Commission or the patient's insurance carrier", "The Centers for Disease Control or the state health department"], "a": [1], "r": "If a patient feels that a health care plan or provider has violated the patient's rights, they may file a formal complaint to the violating entity or to the Office for Civil Rights of DHHS.", "id": "s10-5"}, {"s": 10, "t": "sata", "q": "What are the penalties for violating HIPAA? Select all that apply.", "o": ["Termination of employment", "Financial penalties", "Jail time", "Loss of health insurance coverage", "Mandatory retraining by the Joint Commission"], "a": [0, 1, 2], "r": "The penalties for violating HIPAA are termination of employment, financial penalties ranging from $100 to $50,000 per occurrence with a maximum of 1.5 million dollars per year, and jail time, because it is considered a felony.", "id": "s10-6"}, {"s": 11, "t": "mc", "q": "Who can access a client's record?", "o": ["Any licensed nurse employed by the facility where the client is admitted", "Only health care team members directly responsible for that client's care", "Any staff member who has been issued a valid facility computer password", "Any member of the nursing unit to which the client has been admitted"], "a": [1], "r": "Only health care team members directly responsible for a client's care can access that client's record. Nurses cannot share information with other clients or with staff not caring for the client.", "id": "s11-1"}, {"s": 11, "t": "mc", "q": "A nurse not assigned to a client wants to look at that client's chart out of curiosity. What does the Privacy Rule say?", "o": ["It is permitted as long as nothing is printed", "Only team members directly responsible for the client's care may access it", "It is permitted if the nurse works on the same unit", "It is permitted if the nurse logs the reason for access"], "a": [1], "r": "Only health care team members directly responsible for a client's care can access that client's record.", "id": "s11-2"}, {"s": 11, "t": "sata", "q": "Which statements about the medical record are correct? Select all that apply.", "o": ["Clients have a right to read and obtain a copy of their record", "Nurses cannot photocopy any part of a record except for authorized exchange", "Staff must keep medical records in a secure area", "Electronic records are password-protected", "Staff may list client names and diagnoses on a public display board", "Nurses may share information with staff not caring for the client"], "a": [0, 1, 2, 3], "r": "Clients have a right to read and obtain a copy of their record. Nurses cannot photocopy any part of a record except for authorized exchange of documents between facilities and providers. Records must be kept secure, and public display boards cannot be used to list client names and diagnoses. Electronic records are password-protected.", "id": "s11-3"}, {"s": 12, "t": "mc", "q": "A family member calls and asks for information about a client. What does the nurse need to consider first?", "o": ["Whether the caller is listed in the client's chart", "Whether the caller is authorized to receive information", "Whether the client is awake and able to take the call", "Whether the information requested is already public"], "a": [1], "r": "Nurses must not disclose a client's information to unauthorized individuals or family members who request it in person or by telephone or email.", "id": "s12-1"}, {"s": 12, "t": "mc", "q": "What system do many hospitals use to identify who can receive information about a client?", "o": ["A list of approved contacts kept at the nurses station", "A code system, where the caller must give the code", "A photo identification check at the unit entrance", "A written authorization form signed at admission"], "a": [1], "r": "Many hospitals use a code system to identify those individuals who can receive information about a client. Nurses should ask any individual inquiring about a client's status for the code and disclose information only when the individual can give the code.", "id": "s12-2"}, {"s": 12, "t": "mc", "q": "Where should a nursing student avoid discussing a client at clinicals?", "o": ["In the conference room during a post-clinical huddle", "In the elevator or the cafeteria", "At the bedside with the client present", "In the medication room while preparing doses"], "a": [1], "r": "No talking in the elevator or the cafeteria at clinicals, because communication about a client should only take place in a private setting where unauthorized individuals cannot overhear it.", "id": "s12-3"}, {"s": 12, "t": "sata", "q": "What does advocating for confidentiality include? Select all that apply.", "o": ["Not participating in gossip", "Curbing others from participating in breaches of confidentiality", "Reporting every overheard conversation to the Office for Civil Rights", "Discussing clients only with the client's own family", "Documenting each confidentiality concern in the client's chart"], "a": [0, 1], "r": "Advocating for confidentiality means not participating in gossip and curbing others from participating in breaches of confidentiality.", "id": "s12-4"}, {"s": 13, "t": "sata", "q": "Which are information security protocols? Select all that apply.", "o": ["Always log off the computer before leaving the workstation", "Never share your user ID or password", "Ensure the computer screen cannot be viewed by others", "Shred any printed client information after use", "Change the unit's shared password every month", "Keep printed reports in your pocket until the end of shift"], "a": [0, 1, 2, 3], "r": "The information security protocols are to log off the computer before leaving the workstation, never share a user ID or password, never leave a medical record or printed PHI where others can access it, and shred any printed or written client information after use.", "id": "s13-1"}, {"s": 13, "t": "mc", "q": "Why should a nurse log off the computer before leaving the workstation?", "o": ["To allow the next staff member to log in promptly", "So others cannot view protected health information on the monitor", "To ensure documentation is saved to the record", "To keep the workstation from timing out mid-entry"], "a": [1], "r": "Log off from the computer before leaving the workstation to ensure that others cannot view protected health information on the monitor.", "id": "s13-2"}, {"s": 14, "t": "sata", "q": "Which are social media precautions for nurses and students? Select all that apply.", "o": ["Know the implications of HIPAA before using social networking for school or work", "Become familiar with your facility's policies on social networking", "Do not use or view social networking media in clinical settings", "Do not post information about your facility, clinical sites, experiences, clients or staff", "Do not take pictures that show clients or their family members", "Post only to accounts with privacy settings turned on"], "a": [0, 1, 2, 3, 4], "r": "The social media precautions are to know the implications of HIPAA before using social networking for school or work communication, become familiar with the facility's policies, not use or view social networking media in clinical settings, not post information about the facility, clinical sites, clinical experiences, clients or staff, and not take pictures that show clients or their family members.", "id": "s14-1"}, {"s": 14, "t": "mc", "q": "A student takes a photo in the clinical setting that shows no client's face, only their hand. Is this acceptable?", "o": ["Yes, because no identifying features are visible", "No, because pictures showing clients or family members are not taken", "Yes, if the photo is shared only in a private group", "No, unless the client gives verbal permission first"], "a": [1], "r": "Do not take pictures that show clients or their family members. Protected health information includes any information that can identify a patient.", "id": "s14-2"}, {"s": 15, "t": "sata", "q": "Under which conditions can protected health information be disclosed without the patient's express permission? Select all that apply.", "o": ["Providing information to the patient", "Providing information to other providers treating the patient", "Providing information to individuals involved in payment processing", "When required by law or court order", "When necessary to protect public health", "When a family member requests an update by telephone"], "a": [0, 1, 2, 3, 4], "r": "PHI can be disclosed without express permission when providing information to the patient, to other providers treating the patient, to individuals involved in payment processing and other healthcare operations, when required by law or court order, when necessary to protect public health, and when abuse or neglect is suspected. Information disclosed should be limited to the minimum necessary for the situation. Informal patient permission may be enough for family, friends and others the patient identifies, and incidental disclosure may occur but safeguards should be in place to minimize it.", "id": "s15-1"}, {"s": 15, "t": "mc", "q": "Disclosure is also permitted without express permission in which additional situation?", "o": ["When the patient has been discharged from the facility", "When abuse or neglect is suspected", "When the information is more than one year old", "When the patient's insurance has lapsed"], "a": [1], "r": "Disclosure without express permission is permitted when abuse or neglect is suspected, along with the other listed conditions.", "id": "s15-2"}, {"s": 15, "t": "mc", "q": "A caller says, “I am the neighbor of Mr. Jones. Can I get an update on how he is doing?” What is the nurse's best response?", "o": ["“Let me transfer you to his room, so he can give you an update.”", "“He's doing well. I'm sure he'll be back home in no time.”", "“I do not have any information on that person.”", "“I can tell you he is here, but nothing more than that.”"], "a": [2], "r": "The correct response is that you do not have any information on that person. You cannot verify the client is in the facility; health information cannot be given, and even confirming that they are in the facility violates their right to privacy.", "id": "s15-3"}, {"s": 16, "t": "sata", "q": "What does the Nurse Practice Act define? Select all that apply.", "o": ["Scope of practice", "Standards for education programs", "Licensure requirements", "Grounds for disciplinary actions", "Staffing ratios for each unit type", "Salary minimums for registered nurses"], "a": [0, 1, 2, 3], "r": "The Nurse Practice Act defines scope of practice, standards for education programs, licensure requirements, and grounds for disciplinary actions.", "id": "s16-1"}, {"s": 16, "t": "mc", "q": "How often must an RN license be renewed in North Carolina?", "o": ["Every year", "Every 2 years", "Every 3 years", "Every 5 years"], "a": [1], "r": "NC RN licenses must be renewed every 2 years.", "id": "s16-2"}, {"s": 16, "t": "mc", "q": "How many continuing education contact hours must a full-time nurse complete to renew an NC RN license?", "o": ["10 contact hours", "15 contact hours", "20 contact hours", "30 contact hours"], "a": [1], "r": "A nurse working full time must complete 15 contact hours to renew their NC RN license.", "id": "s16-3"}, {"s": 16, "t": "mc", "q": "What does a compact license allow a nurse to do?", "o": ["Hold licenses in two states at a reduced renewal fee", "Practice in all compact states on a license from their primary state of residence", "Practice in any state after notifying that state's board", "Practice by telehealth only, in any state in the country"], "a": [1], "r": "A compact license allows nurses to practice physically, or via telehealth, in all compact states with a license issued from their primary state of residence, as long as that state is part of the nurse compact.", "id": "s16-4"}, {"s": 16, "t": "mc", "q": "What is the NCSBN?", "o": ["A federal agency that oversees state licensing boards", "A not-for-profit organization whose members represent each state board of nursing", "A professional membership association for registered nurses", "An accreditation body for pre-licensure nursing programs"], "a": [1], "r": "The National Council of State Boards of Nursing is a not-for-profit organization whose members are made up of representatives from each state board of nursing. The NCSBN develops the NCLEX and is the vehicle through which jurisdictional boards of nursing act and counsel together.", "id": "s16-5"}, {"s": 17, "t": "mc", "q": "What does accountability mean?", "o": ["Meeting the requirements of your job description", "Taking responsibility for your actions and decisions", "Completing continuing education on schedule", "Following the chain of command when problems arise"], "a": [1], "r": "Accountability means taking responsibility for your actions and decisions.", "id": "s17-1"}, {"s": 17, "t": "mc", "q": "What is working while a license is lapsed considered, and what can the board do?", "o": ["A misdemeanor, punishable by a fine", "Working without a license, punishable by suspension or revocation", "A breach of contract, punishable by termination", "An intentional tort, punishable by civil damages"], "a": [1], "r": "If you work while your license is lapsed, that is considered working without a license, which is punishable by the State Board of Nursing by suspension or revocation of your license.", "id": "s17-2"}, {"s": 17, "t": "mc", "q": "To what standard of care are nursing students held?", "o": ["A lower standard, because they are supervised", "The same standards of care as licensed nurses", "The standard set by their nursing program", "The standard for unlicensed assistive personnel"], "a": [1], "r": "Nursing students are held accountable to the same standards of care as licensed nurses.", "id": "s17-3"}, {"s": 17, "t": "mc", "q": "A student who also works as a CNA has learned a new skill in nursing school. May she perform it in her CNA job?", "o": ["Yes, because she has been checked off on the skill", "No, she must follow the facility's CNA job description", "Yes, if a nurse is present on the unit", "No, unless her nursing instructor approves it"], "a": [1], "r": "When working as a CNA you cannot do things you were taught as a student. You must follow your facility's job description for CNA scope of practice.", "id": "s17-4"}, {"s": 18, "t": "sata", "q": "What do Good Samaritan laws do? Select all that apply.", "o": ["Encourage health care providers to help victims in an emergency", "Require that help provided fall within the provider's scope of practice", "Protect health care workers from potential liability", "Hold the provider responsible for following through with emergency care", "Guarantee payment for care given at the scene", "Require the provider to stop at any emergency they witness"], "a": [0, 1, 2, 3], "r": "Good Samaritan laws encourage healthcare providers to help victims in an emergency, require that the help fall within the provider's scope of practice, protect healthcare workers from potential liability, and make the provider responsible for following through with emergency care.", "id": "s18-1"}, {"s": 18, "t": "mc", "q": "Why were Good Samaritan laws enacted?", "o": ["To require health care workers to respond to emergencies", "To encourage health care workers to assist in emergency situations", "To limit the cost of emergency care at the scene", "To standardize emergency protocols across states"], "a": [1], "r": "Good Samaritan laws were enacted to encourage healthcare workers to assist in emergency situations.", "id": "s18-2"}, {"s": 19, "t": "sata", "q": "Which situations are nurses legally required to report? Select all that apply.", "o": ["Child abuse", "Elder abuse", "Certain communicable diseases", "Unsafe practice", "A client's refusal of treatment", "A client leaving against medical advice"], "a": [0, 1, 2, 3], "r": "Nurses are legally required to report child abuse, elder abuse, certain communicable diseases, and unsafe practice. Failure to report can result in legal consequences.", "id": "s19-1"}, {"s": 19, "t": "mc", "q": "What is good faith immunity?", "o": ["A shield from liability when reporting suspected abuse in good faith", "A protection that applies when care is given in an emergency", "An exemption from liability for care within scope of practice", "A defense available when all four elements cannot be proven"], "a": [0], "r": "Good faith immunity is a legal protection that shields nurses from civil or criminal liability when they report suspected abuse, neglect or professional misconduct in good faith. The other options describe Good Samaritan protection, scope of practice, and the elements of negligence.", "id": "s19-2"}, {"s": 19, "t": "mc", "q": "A nurse reports suspected abuse in good faith, but the investigation finds no abuse. What protects her?", "o": ["The Good Samaritan Act", "Good faith immunity", "The Nurse Practice Act", "The Privacy Rule"], "a": [1], "r": "Health care workers are protected when they report suspected abuse in good faith, even if the subsequent investigation does not make a determination of abuse.", "id": "s19-3"}, {"s": 20, "t": "mc", "q": "What right does informed consent protect?", "o": ["The right to choose which nurse provides care", "The right to be informed of any health care procedure or treatment", "The right to see the medical record before a procedure", "The right to have a family member present during care"], "a": [1], "r": "Patients have a right to be informed of any health care procedure or treatment.", "id": "s20-1"}, {"s": 20, "t": "sata", "q": "What must the patient understand for consent to be informed? Select all that apply.", "o": ["Risks", "Benefits", "Alternatives", "Purpose of treatment", "Possible outcomes", "The cost of the procedure"], "a": [0, 1, 2, 3, 4], "r": "The patient must understand the risks, benefits, alternatives, purpose of treatment and possible outcomes. The patient may also refuse treatment.", "id": "s20-2"}, {"s": 20, "t": "sata", "q": "Which are types of informed consent? Select all that apply.", "o": ["Admission agreement", "Immunization consent", "Blood transfusion consent", "Procedure or surgical consent", "Research consent", "Consent to release information to an employer"], "a": [0, 1, 2, 3, 4], "r": "The types of informed consent listed are admission agreement, immunization consent, blood transfusion consent, procedure or surgical consent for a surgical or invasive procedure such as central line placement or chemotherapy, and research consent.", "id": "s20-3"}, {"s": 20, "t": "mc", "q": "Which procedures are given as examples requiring a procedure or surgical consent?", "o": ["Blood draws and IV starts", "Central line placement and chemotherapy", "Wound dressing changes and irrigations", "Urinary catheter insertion and removal"], "a": [1], "r": "Procedure or surgical consent is consent for a surgical or invasive procedure, such as central line placement or chemotherapy.", "id": "s20-4"}, {"s": 20, "t": "mc", "q": "A patient prefers health care instruction in a language other than English. What is required?", "o": ["A family member who speaks both languages", "Interpretive services", "A written translation of the consent form only", "A provider who speaks the patient's language"], "a": [1], "r": "For patients who do not speak English or prefer healthcare instruction in another language, interpretive services must be utilized.", "id": "s20-5"}, {"s": 20, "t": "mc", "q": "Who is responsible for obtaining informed consent?", "o": ["The nurse caring for the patient", "The person performing the procedure", "The admitting provider", "The facility's risk management department"], "a": [1], "r": "It is the responsibility of the person performing the procedure to obtain consent. For example, a surgeon would obtain consent for an appendectomy but not for the anesthesia; the anesthesiologist obtains consent for the anesthesia.", "id": "s20-6"}, {"s": 20, "t": "mc", "q": "A patient lifts their sleeve to expose the deltoid for an IM injection. What type of consent is this?", "o": ["Written consent", "Implied consent", "Informed consent", "Proxy consent"], "a": [1], "r": "For many nursing tasks, expressed or implied consent is acceptable and used often. This includes oral communication of consent for a task, or complying with treatment such as lifting up a sleeve for an IM injection to expose the deltoid muscle.", "id": "s20-7"}, {"s": 21, "t": "mc", "q": "What is the nurse's role in informed consent?", "o": ["The nurse obtains the consent for the procedure", "The nurse witnesses the consent and advocates for the patient", "The nurse explains the risks and alternatives to the patient", "The nurse decides whether the patient is competent to consent"], "a": [1], "r": "Provider obtains, nurse witnesses and advocates. Students often think nurses obtain informed consent; that is not correct.", "id": "s21-1"}, {"s": 21, "t": "sata", "q": "Which are the nurse's responsibilities in informed consent? Select all that apply.", "o": ["Witnessing the signature", "Confirming voluntary participation", "Assessing understanding", "Answering nursing-related questions", "Notifying the provider if concerns exist", "Explaining the risks and alternatives of the procedure"], "a": [0, 1, 2, 3, 4], "r": "The nurse's responsibilities are witnessing the signature, confirming voluntary participation, assessing understanding, answering nursing-related questions, and notifying the provider if concerns exist. The provider explains the risks and alternatives.", "id": "s21-2"}, {"s": 22, "t": "mc", "q": "At what age are individuals presumed competent to make their own decisions?", "o": ["16", "18", "19", "21"], "a": [1], "r": "Individuals are presumed to be competent to make their own decisions, including participating in informed consent, at the legal age of adulthood, which is typically 18 years old.", "id": "s22-1"}, {"s": 22, "t": "sata", "q": "What goes into determining competency? Select all that apply.", "o": ["Medical condition", "Capacity to understand treatment benefits, risks and alternatives", "Ability to communicate a decision", "The family's agreement with the decision", "The patient's level of education"], "a": [0, 1, 2], "r": "The things that go into determining competency are medical condition, capacity to understand treatment benefits, risks and alternatives, and the ability to communicate a decision.", "id": "s22-2"}, {"s": 23, "t": "mc", "q": "Who is considered a minor, and who must provide consent?", "o": ["Anyone under 21, with consent from a parent or guardian", "Anyone under 18, with consent from a parent or legal guardian", "Anyone under 16, with consent from any adult relative", "Anyone under 18, with consent from the attending provider"], "a": [1], "r": "A minor is anyone under the age of 18, and a parent or legal guardian must provide consent.", "id": "s23-1"}, {"s": 23, "t": "sata", "q": "Which are exceptions to the requirement for parental consent? Select all that apply.", "o": ["Emergencies", "Emancipated minors", "Court order for treatment", "Contraceptive services or STI treatment", "Pregnancy", "A minor who has a part-time job"], "a": [0, 1, 2, 3, 4], "r": "The exceptions are emergencies, emancipated minors, court order for treatment, contraceptive services or STI treatment, pregnancy, and mental health or substance abuse treatment.", "id": "s23-2"}, {"s": 23, "t": "sata", "q": "In North Carolina, for which of the asterisked exceptions can a minor seek treatment without parental consent? Select all that apply.", "o": ["Contraceptive services or STI treatment", "Pregnancy", "Mental health or substance abuse treatment", "Elective surgical procedures", "Routine immunizations"], "a": [0, 1, 2], "r": "The exceptions with asterisks are state law dependent, and in NC a minor can seek treatment for any of these without parental consent: contraceptive services or STI treatment, pregnancy, and mental health or substance abuse treatment.", "id": "s23-3"}, {"s": 24, "t": "mc", "q": "A patient signed the consent yesterday but now says they are unsure. What should happen?", "o": ["The consent stands until the procedure is cancelled", "Consent can be withdrawn at any time, and the provider is notified immediately", "The nurse reviews the risks and benefits again before the procedure", "The patient signs an addendum documenting the hesitation"], "a": [1], "r": "Consent can be withdrawn at any time. Notify the provider immediately.", "id": "s24-1"}, {"s": 24, "t": "mc", "q": "A family member is translating the consent discussion. Why might this be problematic?", "o": ["The family member may not be listed in the chart", "Certified medical interpreters should be used", "The family member cannot witness the signature", "The discussion must be documented in English"], "a": [1], "r": "Certified medical interpreters should be used, rather than a family member translating.", "id": "s24-2"}, {"s": 24, "t": "mc", "q": "A patient is unconscious after a motor vehicle accident, needs a lifesaving transfusion, and no family is present. What is the basis for proceeding?", "o": ["A court order obtained by the facility", "Providers can assume the patient would consent if able", "Two providers must sign in place of the patient", "The transfusion must wait until family can be reached"], "a": [1], "r": "Consent in emergency situations is not always possible. If there is imminent danger and the patient is unable to consent, health care providers can assume the patient would consent if able to do so themselves. If a patient has previously refused a procedure, providers cannot override that refusal in an emergent situation.", "id": "s24-3"}, {"s": 25, "t": "mc", "q": "What do advance directives do?", "o": ["Appoint a court guardian for health care decisions", "Help ensure patient wishes are honored when they cannot speak for themselves", "Record the patient's refusal of a specific procedure", "Document the family's preferences for the patient's care"], "a": [1], "r": "Advance directives help ensure patient wishes are honored when they can no longer speak for themselves. Every nurse should understand these documents because they are frequently encountered in practice.", "id": "s25-1"}, {"s": 25, "t": "sata", "q": "Which two advance directives will a nurse see in practice? Select all that apply.", "o": ["Living will", "Durable power of attorney for health care", "Do not resuscitate order", "Informed consent form", "Against medical advice form"], "a": [0, 1], "r": "The two advance directives covered are the living will and the durable power of attorney for health care.", "id": "s25-2"}, {"s": 25, "t": "mc", "q": "What does a living will provide?", "o": ["The name of the person who will make decisions once the patient cannot", "Written instructions about treatments the patient would or would not want", "A court-approved record of the patient's competency to make decisions", "A summary of the treatments the patient is currently receiving"], "a": [1], "r": "A living will provides written instructions regarding treatments the patient would or would not want in certain situations. A living will focuses on treatment preferences.", "id": "s25-3"}, {"s": 25, "t": "sata", "q": "Which treatments are given as examples addressed in a living will? Select all that apply.", "o": ["Mechanical ventilation", "Artificial nutrition", "CPR", "Hydration", "Antibiotic therapy", "Physical therapy"], "a": [0, 1, 2, 3], "r": "The examples given for a living will are mechanical ventilation, artificial nutrition, CPR and hydration.", "id": "s25-4"}, {"s": 25, "t": "mc", "q": "Which pairing correctly summarizes the two advance directives?", "o": ["Living will = who; durable POA = what", "Living will = what; durable POA = who", "Living will = when; durable POA = what", "Living will = who; durable POA = when"], "a": [1], "r": "Living will equals WHAT treatments are desired. Durable power of attorney equals WHO makes decisions.", "id": "s25-5"}, {"s": 26, "t": "mc", "q": "How does the ADA define a person with a disability?", "o": ["A person who requires assistance with activities of daily living", "A person with an impairment that substantially limits a major life activity", "A person who has been declared incompetent by a court", "A person who receives disability benefits from the government"], "a": [1], "r": "The ADA defines a person with a disability as a person who has a physical or mental impairment that substantially limits one or more major life activity.", "id": "s26-1"}, {"s": 26, "t": "mc", "q": "What does the ADA require of health care organizations?", "o": ["That they provide care at a reduced cost to disabled patients", "That they make facilities accessible and provide accommodations", "That they employ a minimum percentage of disabled staff", "That they report accessibility complaints to the state"], "a": [1], "r": "The ADA requires healthcare organizations to make facilities accessible to all patients with disabilities and to provide accommodations to patients with disabilities.", "id": "s26-2"}, {"s": 26, "t": "sata", "q": "Which are examples of what the ADA requires? Select all that apply.", "o": ["Accessible parking spaces, curb ramps or loading zones at entrances", "Scales capable of weighing a person using a mobility aid", "Exam tables and chairs that allow safe transfer from a mobility aid", "A website usable by patients who use screen reading technology", "Patient education documents in braille for visually impaired patients", "A private room for every patient with a disability"], "a": [0, 1, 2, 3, 4], "r": "The examples given are accessible parking spaces, curb ramps or loading zones at the building entrance, patient scales capable of weighing a person using a mobility aid such as a wheelchair, exam tables and chairs that allow safe transfer, a website usable by patients who are blind and use screen reading technology, and patient education documents in braille.", "id": "s26-3"}];
+const TITLES = {"1": "Laws Affecting Nurses", "2": "Torts: Intentional and Unintentional", "3": "Negligence, Malpractice and the Four Elements", "4": "Common Negligent Acts", "5": "Nursing Notes", "6": "Standards of Care", "7": "CPCC Student Learning Outcomes", "8": "Intentional Torts", "9": "Applying the Terms to Scenarios", "10": "HIPAA and Protected Health Information", "11": "The Privacy Rule and the Medical Record", "12": "Unauthorized Individuals and Confidentiality", "13": "Information Security Protocols", "14": "Social Media Implications", "15": "Disclosure", "16": "Nurse Practice Act, Licensure and the NCSBN", "17": "Accountability and Nursing Students", "18": "Good Samaritan Laws", "19": "Mandatory Reporting and Good Faith Immunity", "20": "Informed Consent", "21": "The Nurse's Role in Informed Consent", "22": "Competency", "23": "Informed Consent and Minors", "24": "Consent Scenarios", "25": "Advance Directives", "26": "Americans with Disabilities Act"};
+const GROUPS = [{"name": "Laws, torts and negligence", "slides": [1, 2, 3, 4, 5]}, {"name": "Standards of care and intentional torts", "slides": [6, 7, 8, 9]}, {"name": "HIPAA, privacy and confidentiality", "slides": [10, 11, 12, 13, 14, 15]}, {"name": "Licensure, accountability and reporting", "slides": [16, 17, 18, 19]}, {"name": "Informed consent", "slides": [20, 21, 22, 23, 24]}, {"name": "Advance directives and the ADA", "slides": [25, 26]}];
+const SECTION_LABEL = {"1": "Slide 4", "2": "Slide 4", "3": "Slide 5", "4": "Slides 6-7", "5": "Slide 7", "6": "Slide 8", "7": "Slide 8", "8": "Slide 9", "9": "Slides 10-12", "10": "Slides 13-14", "11": "Slide 15", "12": "Slide 16", "13": "Slide 17", "14": "Slide 18", "15": "Slides 19-20", "16": "Slide 21", "17": "Slides 22-23", "18": "Slide 24", "19": "Slide 25", "20": "Slide 26", "21": "Slide 27", "22": "Slide 28", "23": "Slide 29", "24": "Slide 30", "25": "Slide 31", "26": "Slide 32"};
+const TYPE_LABEL = {mc:"Multiple choice", sata:"Select all that apply", match:"Matching"};
+const LETTERS = "ABCDEFGHIJ";
+const KEY_SEEN = "legalTB.seen.v1";
+const KEY_MISSED = "legalTB.missed.v1";
+const KEY_RUNS = "legalTB.runs.v1";
+
+/* ---------------- storage (best effort) ---------------- */
+function load(key, fallback){
+  try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e){ return fallback; }
+}
+function save(key, val){
+  try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){}
+}
+let seen = new Set(load(KEY_SEEN, []));
+let missed = new Set(load(KEY_MISSED, []));
+let runs = load(KEY_RUNS, []);
+function persist(){
+  save(KEY_SEEN, [...seen]); save(KEY_MISSED, [...missed]); save(KEY_RUNS, runs.slice(-40));
+}
+
+/* ---------------- helpers ---------------- */
+function el(tag, cls, txt){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(txt !== undefined) n.textContent = txt;
+  return n;
+}
+function shuffle(a){
+  a = [...a];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function byId(id){ return QUESTIONS.find(q => q.id === id); }
+function plural(n, w){ return n + " " + w + (n === 1 ? "" : "s"); }
+function mmss(ms){
+  const s = Math.floor(ms/1000);
+  return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0");
+}
+
+/* ---------------- question rendering ---------------- */
+/* mode: "study" = check button + instant rationale; "exam" = collect only; "review" = show result */
+function renderQuestion(q, opts){
+  const o = opts || {};
+  const card = el("article","q");
+  card.dataset.type = q.t;
+
+  const head = el("div","qhead");
+  if(o.label !== undefined) head.appendChild(el("span","qnum", o.label));
+  head.appendChild(el("span","qtype", TYPE_LABEL[q.t]));
+  if(o.showSlide) head.appendChild(el("span","qslide","Slide " + q.s));
+  card.appendChild(head);
+  card.appendChild(el("p","stem", q.q));
+
+  const state = o.state || {};          // {picked:[origIdx...], order:[...], match:{}}
+  if(!state.order) state.order = shuffle([...Array(q.t === "match" ? q.p.length : q.o.length).keys()]);
+
+  if(q.t === "match") buildMatch(card, q, state, o);
+  else buildChoice(card, q, state, o);
+
+  if(o.mode === "review"){
+    const gotIt = isCorrect(q, state);
+    const line = q.t === "match"
+      ? "Correct matches are shown beside each item."
+      : "Answer: " + answerLetters(q, state).join(", ") + ".";
+    const r = el("div","rat");
+    r.appendChild(el("span","ans", (state.picked === undefined && !state.match ? "Skipped. " : (gotIt ? "Correct. " : "Not quite. ")) + line));
+    if(q.r) r.appendChild(document.createTextNode(q.r));
+    card.appendChild(r);
+    if(q.f){
+      const n = el("div","note");
+      n.appendChild(el("span","t","Instructor update. "));
+      n.appendChild(document.createTextNode(q.f));
+      card.appendChild(n);
+    }
+  }
+  return card;
+}
+
+function answerLetters(q, state){
+  if(q.t === "match") return state.order.map((_, i) => LETTERS[i]);
+  const ans = new Set(q.a);
+  return state.order.map((orig, pos) => ans.has(orig) ? LETTERS[pos] : null)
+                    .filter(Boolean).sort();
+}
+
+function isCorrect(q, state){
+  if(q.t === "match"){
+    return q.p.every((_, idx) => (state.match || {})[idx] === LETTERS[state.order.indexOf(idx)]);
+  }
+  const picked = new Set(state.picked || []);
+  const ans = new Set(q.a);
+  if(picked.size !== ans.size) return false;
+  for(const a of ans) if(!picked.has(a)) return false;
+  return true;
+}
+
+function buildChoice(card, q, state, o){
+  const multi = q.t === "sata";
+  if(!state.picked) state.picked = [];
+  const picked = new Set(state.picked);
+  const list = el("ul","opts");
+  const buttons = [];
+  const locked = o.mode === "review";
+
+  state.order.forEach((orig, pos) => {
+    const li = el("li");
+    const b = el("button","opt" + (multi ? "" : " round"));
+    b.type = "button";
+    b.setAttribute("aria-pressed", picked.has(orig) ? "true" : "false");
+    b.appendChild(el("span","box", LETTERS[pos]));
+    b.appendChild(el("span","txt", q.o[orig]));
+    b.dataset.orig = orig;
+    if(locked) b.disabled = true;
+    else b.addEventListener("click", () => {
+      if(!multi){ buttons.forEach(x => x.setAttribute("aria-pressed","false")); picked.clear(); }
+      const on = b.getAttribute("aria-pressed") === "true";
+      b.setAttribute("aria-pressed", on ? "false" : "true");
+      if(on) picked.delete(orig); else picked.add(orig);
+      state.picked = [...picked];
+      if(o.onChange) o.onChange();
+    });
+    buttons.push(b);
+    li.appendChild(b);
+    list.appendChild(li);
+  });
+  card.appendChild(list);
+
+  if(locked){
+    const ans = new Set(q.a);
+    buttons.forEach(b => {
+      const i = Number(b.dataset.orig);
+      const chosen = picked.has(i);
+      b.setAttribute("aria-pressed","false");
+      if(ans.has(i) && chosen) b.classList.add("correct");
+      else if(ans.has(i)) b.classList.add("missed");
+      else if(chosen) b.classList.add("incorrect");
+    });
+    return;
+  }
+
+  if(o.mode === "study"){
+    const btn = el("button","btn small", multi ? "Check answers" : "Check answer");
+    btn.type = "button";
+    card.appendChild(btn);
+    btn.addEventListener("click", () => {
+      if(btn.disabled || picked.size === 0) return;
+      btn.disabled = true; btn.textContent = "Answer shown"; btn.classList.add("ghost");
+      const ans = new Set(q.a);
+      buttons.forEach(b => {
+        const i = Number(b.dataset.orig);
+        const chosen = picked.has(i);
+        b.disabled = true; b.setAttribute("aria-pressed","false");
+        if(ans.has(i) && chosen) b.classList.add("correct");
+        else if(ans.has(i)) b.classList.add("missed");
+        else if(chosen) b.classList.add("incorrect");
+      });
+      finishStudy(card, q, state);
+    });
+  }
+}
+
+function buildMatch(card, q, state, o){
+  if(!state.match) state.match = {};
+  const locked = o.mode === "review";
+  const bank = el("div","bank");
+  bank.appendChild(el("div","lbl","Answer bank"));
+  const ol = el("ol"); ol.type = "A";
+  state.order.forEach(i => ol.appendChild(el("li", null, q.p[i][1])));
+  bank.appendChild(ol);
+  card.appendChild(bank);
+
+  const rows = [];
+  const holder = el("div","pairs");
+  q.p.forEach((pair, idx) => {
+    const row = el("div","pair");
+    row.appendChild(el("span","prompt", (idx+1) + ". " + pair[0]));
+    const sel = el("select");
+    sel.setAttribute("aria-label","Match for " + pair[0]);
+    const ph = el("option", null, "—"); ph.value = "";
+    sel.appendChild(ph);
+    state.order.forEach((_, pos) => {
+      const op = el("option", null, LETTERS[pos]); op.value = LETTERS[pos];
+      sel.appendChild(op);
+    });
+    sel.value = state.match[idx] || "";
+    const verdict = el("span","verdict","");
+    if(locked) sel.disabled = true;
+    else sel.addEventListener("change", () => {
+      state.match[idx] = sel.value;
+      if(o.onChange) o.onChange();
+    });
+    row.appendChild(sel); row.appendChild(verdict);
+    holder.appendChild(row);
+    rows.push({row, sel, verdict, correctLetter: LETTERS[state.order.indexOf(idx)]});
+  });
+  card.appendChild(holder);
+
+  function mark(){
+    rows.forEach(r => {
+      r.sel.disabled = true;
+      if(r.sel.value === r.correctLetter){ r.row.classList.add("ok"); r.verdict.textContent = r.correctLetter; }
+      else { r.row.classList.add("no"); r.verdict.textContent = "→ " + r.correctLetter; }
+    });
+  }
+  if(locked){ mark(); return; }
+
+  if(o.mode === "study"){
+    const btn = el("button","btn small","Check matches");
+    btn.type = "button";
+    card.appendChild(btn);
+    btn.addEventListener("click", () => {
+      if(btn.disabled) return;
+      if(rows.every(r => r.sel.value === "")) return;
+      btn.disabled = true; btn.textContent = "Answer shown"; btn.classList.add("ghost");
+      mark();
+      finishStudy(card, q, state);
+    });
+  }
+}
+
+/* study-mode instant feedback */
+let studyAnswered = 0, studyCorrect = 0;
+function finishStudy(card, q, state){
+  const gotIt = isCorrect(q, state);
+  const line = q.t === "match"
+    ? "Correct matches are shown beside each item."
+    : "Answer: " + answerLetters(q, state).join(", ") + ".";
+  const r = el("div","rat");
+  r.appendChild(el("span","ans", (gotIt ? "Correct. " : "Not quite. ") + line));
+  if(q.r) r.appendChild(document.createTextNode(q.r));
+  card.appendChild(r);
+  if(q.f){
+    const n = el("div","note");
+    n.appendChild(el("span","t","Instructor update. "));
+    n.appendChild(document.createTextNode(q.f));
+    card.appendChild(n);
+  }
+  seen.add(q.id);
+  if(gotIt) missed.delete(q.id); else missed.add(q.id);
+  persist();
+  studyAnswered++; if(gotIt) studyCorrect++;
+  const t = document.getElementById("studyTally");
+  if(t) t.innerHTML = "Answered <b>"+studyAnswered+"</b> — <b>"+studyCorrect+"</b> correct";
+}
+
+/* ---------------- STUDY MODE ---------------- */
+function viewStudy(){
+  const app = document.getElementById("app");
+  app.textContent = "";
+  studyAnswered = 0; studyCorrect = 0;
+
+  const bar = el("div","toolbar");
+  const lab = el("label", null, "Jump to"); lab.setAttribute("for","jump");
+  const jump = el("select","jump"); jump.id = "jump";
+  const allOpt = el("option", null, "All slides"); allOpt.value = "top";
+  jump.appendChild(allOpt);
+  bar.appendChild(lab); bar.appendChild(jump);
+
+  const chips = el("div","chips");
+  [["all","All"],["mc","Multiple choice"],["sata","Select all"],["match","Matching"]].forEach(([f,t],i) => {
+    const c = el("button","chip",t);
+    c.dataset.filter = f;
+    c.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+    chips.appendChild(c);
+  });
+  bar.appendChild(chips);
+  const tally = el("div","tally"); tally.id = "studyTally";
+  tally.innerHTML = "Answered <b>0</b> — <b>0</b> correct";
+  bar.appendChild(tally);
+  app.appendChild(bar);
+
+  const bySlide = new Map();
+  QUESTIONS.forEach(q => { if(!bySlide.has(q.s)) bySlide.set(q.s, []); bySlide.get(q.s).push(q); });
+
+  let n = 0;
+  [...bySlide.keys()].sort((a,b)=>a-b).forEach(slide => {
+    const sec = el("section","slide");
+    sec.id = "slide-" + slide;
+    sec.appendChild(el("h2", null, TITLES[slide] || ("Slide " + slide)));
+    const items = bySlide.get(slide);
+    sec.appendChild(el("p","meta",(SECTION_LABEL[slide] || ("Slide " + slide)) + " · " + plural(items.length,"question")));
+    items.forEach(q => { n++; sec.appendChild(renderQuestion(q, {mode:"study", label:String(n)})); });
+    app.appendChild(sec);
+    const op = el("option", null, "Slide " + slide + " — " + (TITLES[slide] || ""));
+    op.value = sec.id;
+    jump.appendChild(op);
+  });
+
+  jump.addEventListener("change", () => {
+    if(jump.value === "top"){ window.scrollTo({top:0,behavior:"smooth"}); return; }
+    const t = document.getElementById(jump.value);
+    if(t) t.scrollIntoView({behavior:"smooth", block:"start"});
+  });
+  chips.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const f = chip.dataset.filter;
+      chips.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(c === chip)));
+      app.querySelectorAll("article.q").forEach(c =>
+        c.classList.toggle("hidden", f !== "all" && c.dataset.type !== f));
+      app.querySelectorAll("section.slide").forEach(sec => {
+        const vis = [...sec.querySelectorAll("article.q")].some(c => !c.classList.contains("hidden"));
+        sec.classList.toggle("hidden", !vis);
+      });
+    });
+  });
+}
+
+/* ---------------- EXAM SETUP ---------------- */
+const setup = {
+  scope: "all",        // "all" | "unit" | "slide" | "missed"
+  unit: 0,             // index into GROUPS when scope === "unit"
+  slide: null,         // slide number when scope === "slide"
+  types: new Set(["mc","sata","match"]),
+  limit: 25,
+  fresh: true
+};
+const ALL_SLIDES = [...new Set(QUESTIONS.map(q => q.s))].sort((a,b) => a-b);
+
+function poolFor(s){
+  let pool = QUESTIONS.filter(q => s.types.has(q.t));
+  if(s.scope === "missed") return pool.filter(q => missed.has(q.id));
+  if(s.scope === "unit"){
+    const g = GROUPS[s.unit] || {slides:[]};
+    return pool.filter(q => g.slides.includes(q.s));
+  }
+  if(s.scope === "slide") return pool.filter(q => q.s === s.slide);
+  return pool;
+}
+
+function viewExamSetup(){
+  const app = document.getElementById("app");
+  app.textContent = "";
+
+  const panel = el("div","panel");
+  panel.appendChild(el("h2", null, "Take a practice exam"));
+  panel.appendChild(el("p","sub","Two quick choices and you're in. Questions and answer choices come up in a different order every time, and you'll get ones you haven't seen before you get any repeats."));
+
+  /* --- 1. what to practice --- */
+  const f1 = el("div","field");
+  f1.appendChild(el("div","h","1. What do you want to practice?"));
+  const choices = el("div","choices");
+
+  function choice(scope, title, sub, disabled){
+    const b = el("button","choice");
+    b.type = "button";
+    b.dataset.scope = scope;
+    b.setAttribute("aria-pressed", String(setup.scope === scope));
+    b.appendChild(el("span","dot"));
+    const w = el("span");
+    w.appendChild(el("span","t", title));
+    if(sub) w.appendChild(el("span","s", sub));
+    b.appendChild(w);
+    if(disabled) b.disabled = true;
+    return b;
+  }
+
+  choices.appendChild(choice("all","Everything",
+    ALL_SLIDES.length + " topics · " + QUESTIONS.length + " questions"));
+  choices.appendChild(choice("unit","One unit",
+    "A group of related topics, like injections or medication errors"));
+  choices.appendChild(choice("slide","One topic",
+    "A single slide you want to hammer"));
+  choices.appendChild(choice("missed","Only what I've gotten wrong",
+    missed.size ? plural(missed.size,"question") + " to clean up"
+                : "Nothing yet — this fills up as you answer questions",
+    missed.size === 0));
+  f1.appendChild(choices);
+
+  /* dropdown that appears under the unit / topic choices */
+  const picker = el("div","picker");
+  const sel = el("select");
+  sel.id = "scopePicker";
+  picker.appendChild(sel);
+  f1.appendChild(picker);
+  panel.appendChild(f1);
+
+  /* --- 2. how long --- */
+  const f2 = el("div","field");
+  f2.appendChild(el("div","h","2. How many questions?"));
+  const sizes = el("div","sizes");
+  [[10,"Quick check"],[25,"Standard"],[50,"Long"],["all","Everything"]].forEach(([v,lab]) => {
+    const b = el("button","size");
+    b.type = "button";
+    b.dataset.limit = v;
+    b.setAttribute("aria-pressed", String(setup.limit === v));
+    b.appendChild(el("span","t", v === "all" ? "All" : String(v)));
+    b.appendChild(el("span","s", lab));
+    sizes.appendChild(b);
+  });
+  f2.appendChild(sizes);
+  panel.appendChild(f2);
+
+  /* --- start --- */
+  const bar = el("div","startbar");
+  const start = el("button","btn","Start exam");
+  bar.appendChild(start);
+  const info = el("div","poolinfo");
+  bar.appendChild(info);
+  const warnBox = el("div","warn hidden");
+  bar.appendChild(warnBox);
+  panel.appendChild(bar);
+
+  /* --- collapsed extras --- */
+  const more = el("details","more");
+  const sum = document.createElement("summary");
+  sum.textContent = "More options";
+  more.appendChild(sum);
+  const fT = el("div","field");
+  fT.appendChild(el("div","d","Question formats to include:"));
+  [["mc","Multiple choice"],["sata","Select all that apply"],["match","Matching"]].forEach(([v,t]) => {
+    const l = el("label","cb");
+    const cb = el("input"); cb.type = "checkbox"; cb.dataset.type = v;
+    cb.checked = setup.types.has(v);
+    l.appendChild(cb); l.appendChild(el("span", null, t));
+    fT.appendChild(l);
+  });
+  const lf = el("label","cb");
+  const cbF = el("input"); cbF.type = "checkbox"; cbF.checked = !setup.fresh;
+  cbF.id = "repeatCb";
+  lf.appendChild(cbF);
+  lf.appendChild(el("span", null, "Let questions I've already seen come up again"));
+  fT.appendChild(lf);
+  more.appendChild(fT);
+  panel.appendChild(more);
+
+  app.appendChild(panel);
+
+  /* ----- wiring ----- */
+  function fillPicker(){
+    sel.textContent = "";
+    if(setup.scope === "unit"){
+      GROUPS.forEach((g, i) => {
+        const n = QUESTIONS.filter(q => g.slides.includes(q.s)).length;
+        const o = el("option", null, g.name + " (" + n + ")");
+        o.value = String(i);
+        sel.appendChild(o);
+      });
+      sel.value = String(setup.unit);
+    } else if(setup.scope === "slide"){
+      ALL_SLIDES.forEach(s => {
+        const n = QUESTIONS.filter(q => q.s === s).length;
+        const o = el("option", null, (TITLES[s] || ("Slide " + s)) + "  (" + n + " questions)");
+        o.value = String(s);
+        sel.appendChild(o);
+      });
+      if(setup.slide === null) setup.slide = ALL_SLIDES[0];
+      sel.value = String(setup.slide);
+    }
+    picker.classList.toggle("hidden", setup.scope !== "unit" && setup.scope !== "slide");
+  }
+
+  function refresh(){
+    const pool = poolFor(setup);
+    const unseen = pool.filter(q => !seen.has(q.id)).length;
+    const want = setup.limit === "all" ? pool.length : Math.min(setup.limit, pool.length);
+    info.innerHTML = "This exam will be <b>" + want + "</b> question" + (want === 1 ? "" : "s") +
+      ", drawn from " + pool.length + " available.";
+    start.disabled = pool.length === 0;
+    let msg = "";
+    if(pool.length === 0){
+      msg = "Nothing matches these settings. Check the question formats under More options.";
+    } else if(setup.fresh && unseen < want){
+      const rep = want - unseen;
+      msg = "You've already worked through most of this set, so " + rep + " question" +
+        (rep === 1 ? "" : "s") + " will come up again. Pick a wider set, or clear your history at the bottom of the page to start fresh.";
+    }
+    warnBox.textContent = msg;
+    warnBox.classList.toggle("hidden", !msg);
+  }
+
+  choices.addEventListener("click", e => {
+    const b = e.target.closest("[data-scope]");
+    if(!b || b.disabled) return;
+    setup.scope = b.dataset.scope;
+    choices.querySelectorAll("[data-scope]").forEach(c =>
+      c.setAttribute("aria-pressed", String(c === b)));
+    fillPicker(); refresh();
+  });
+  sel.addEventListener("change", () => {
+    if(setup.scope === "unit") setup.unit = Number(sel.value);
+    else if(setup.scope === "slide") setup.slide = Number(sel.value);
+    refresh();
+  });
+  sizes.addEventListener("click", e => {
+    const b = e.target.closest("[data-limit]");
+    if(!b) return;
+    setup.limit = b.dataset.limit === "all" ? "all" : Number(b.dataset.limit);
+    sizes.querySelectorAll("[data-limit]").forEach(c =>
+      c.setAttribute("aria-pressed", String(c === b)));
+    refresh();
+  });
+  more.addEventListener("change", e => {
+    const cb = e.target.closest("input");
+    if(!cb) return;
+    if(cb.dataset.type){
+      if(cb.checked) setup.types.add(cb.dataset.type); else setup.types.delete(cb.dataset.type);
+    } else {
+      setup.fresh = !cb.checked;
+    }
+    refresh();
+  });
+  start.addEventListener("click", () => startExam());
+
+  fillPicker();
+  refresh();
+}
+
+/* ---------------- EXAM RUNNER ---------------- */
+let exam = null;
+
+function startExam(){
+  const pool = poolFor(setup);
+  if(!pool.length) return;
+  const want = setup.limit === "all" ? pool.length : Math.min(setup.limit, pool.length);
+
+  let chosen;
+  if(setup.fresh){
+    const unseen = shuffle(pool.filter(q => !seen.has(q.id)));
+    const rest = shuffle(pool.filter(q => seen.has(q.id)));
+    chosen = unseen.concat(rest).slice(0, want);
+    chosen = shuffle(chosen);
+  } else {
+    chosen = shuffle(pool).slice(0, want);
+  }
+
+  exam = {
+    items: chosen.map(q => ({ id: q.id, state: {}, flagged: false })),
+    i: 0,
+    started: Date.now(),
+    submitted: false
+  };
+  viewExam();
+}
+
+function examAnsweredCount(){
+  return exam.items.filter(it => {
+    const q = byId(it.id);
+    if(q.t === "match") return Object.values(it.state.match || {}).some(v => v);
+    return (it.state.picked || []).length > 0;
+  }).length;
+}
+
+function viewExam(){
+  const app = document.getElementById("app");
+  app.textContent = "";
+
+  const top = el("div","examtop");
+  const pos = el("div","pos"); pos.id = "examPos";
+  const prog = el("div","prog"); const fill = el("i"); prog.appendChild(fill);
+  const timer = el("div","timer"); timer.id = "examTimer";
+  const quit = el("button","btn ghost small","End exam");
+  top.appendChild(pos); top.appendChild(prog); top.appendChild(timer); top.appendChild(quit);
+  app.appendChild(top);
+
+  const holder = el("div"); holder.id = "examHolder";
+  app.appendChild(holder);
+
+  const grid = el("div","navgrid"); grid.id = "examGrid";
+  app.appendChild(grid);
+
+  quit.addEventListener("click", () => submitExam());
+
+  const tick = setInterval(() => {
+    const t = document.getElementById("examTimer");
+    if(!t || !exam || exam.submitted){ clearInterval(tick); return; }
+    t.textContent = mmss(Date.now() - exam.started);
+  }, 1000);
+
+  drawExamGrid();
+  drawExamQuestion();
+
+  function drawExamGrid(){
+    grid.textContent = "";
+    exam.items.forEach((it, idx) => {
+      const b = el("button","navbtn", String(idx+1));
+      const q = byId(it.id);
+      const done = q.t === "match"
+        ? Object.values(it.state.match || {}).some(v => v)
+        : (it.state.picked || []).length > 0;
+      if(done) b.classList.add("done");
+      if(it.flagged) b.classList.add("flag");
+      if(idx === exam.i) b.classList.add("here");
+      b.addEventListener("click", () => { exam.i = idx; drawExamQuestion(); drawExamGrid(); });
+      grid.appendChild(b);
+    });
+  }
+
+  function drawExamQuestion(){
+    const it = exam.items[exam.i];
+    const q = byId(it.id);
+    holder.textContent = "";
+    holder.appendChild(renderQuestion(q, {
+      mode: "exam",
+      label: String(exam.i + 1),
+      showSlide: false,
+      state: it.state,
+      onChange: () => { drawExamGrid(); updateHead(); }
+    }));
+
+    const nav = el("div","runnav");
+    const prev = el("button","btn ghost","Previous");
+    prev.disabled = exam.i === 0;
+    prev.addEventListener("click", () => { exam.i--; drawExamQuestion(); drawExamGrid(); });
+    const flagBtn = el("button","btn ghost", it.flagged ? "Unflag" : "Flag for review");
+    flagBtn.addEventListener("click", () => {
+      it.flagged = !it.flagged; drawExamQuestion(); drawExamGrid();
+    });
+    nav.appendChild(prev); nav.appendChild(flagBtn);
+    const sp = el("span","sp");
+    nav.appendChild(sp);
+    if(exam.i < exam.items.length - 1){
+      const next = el("button","btn","Next");
+      next.addEventListener("click", () => { exam.i++; drawExamQuestion(); drawExamGrid(); });
+      nav.appendChild(next);
+    } else {
+      const sub = el("button","btn","Submit exam");
+      sub.addEventListener("click", () => submitExam());
+      nav.appendChild(sub);
+    }
+    holder.appendChild(nav);
+    updateHead();
+  }
+
+  function updateHead(){
+    const done = examAnsweredCount();
+    document.getElementById("examPos").textContent =
+      "Question " + (exam.i + 1) + " of " + exam.items.length;
+    fill.style.width = (100 * done / exam.items.length) + "%";
+  }
+}
+
+function submitExam(){
+  const unanswered = exam.items.length - examAnsweredCount();
+  if(unanswered > 0 && !exam.submitted){
+    if(!confirm(unanswered + " question" + (unanswered===1?" is":"s are") +
+        " still unanswered. Submit anyway?")) return;
+  }
+  exam.submitted = true;
+  exam.elapsed = Date.now() - exam.started;
+
+  exam.items.forEach(it => {
+    const q = byId(it.id);
+    it.correct = isCorrect(q, it.state);
+    seen.add(q.id);
+    if(it.correct) missed.delete(q.id); else missed.add(q.id);
+  });
+  const right = exam.items.filter(it => it.correct).length;
+  runs.push({ when: Date.now(), n: exam.items.length, right, ms: exam.elapsed });
+  persist();
+  viewResults();
+}
+
+/* ---------------- RESULTS ---------------- */
+function viewResults(){
+  const app = document.getElementById("app");
+  app.textContent = "";
+  const right = exam.items.filter(it => it.correct).length;
+  const n = exam.items.length;
+  const pct = Math.round(100 * right / n);
+
+  const panel = el("div","panel");
+  panel.appendChild(el("div","scorebig", pct + "%"));
+  panel.appendChild(el("div","scoresub",
+    right + " of " + n + " correct · " + mmss(exam.elapsed) + " elapsed"));
+
+  /* breakdown by slide */
+  const bySlide = new Map();
+  exam.items.forEach(it => {
+    const q = byId(it.id);
+    if(!bySlide.has(q.s)) bySlide.set(q.s, {n:0, r:0});
+    const b = bySlide.get(q.s); b.n++; if(it.correct) b.r++;
+  });
+  const weak = [...bySlide.entries()].filter(([,b]) => b.r < b.n).sort((a,b) =>
+    (a[1].r/a[1].n) - (b[1].r/b[1].n));
+
+  if(weak.length){
+    panel.appendChild(el("div","h","Where to focus next"));
+    const scroll = el("div","scroll");
+    const tb = el("table","bd");
+    const hr = el("tr");
+    ["Slide","Score"].forEach((h,i) => {
+      const th = el("th", i ? "num" : null, h); hr.appendChild(th);
+    });
+    const thead = document.createElement("thead"); thead.appendChild(hr); tb.appendChild(thead);
+    const tbody = document.createElement("tbody");
+    weak.forEach(([s,b]) => {
+      const tr = el("tr");
+      tr.appendChild(el("td", null, s + " — " + (TITLES[s] || "")));
+      tr.appendChild(el("td","num", b.r + "/" + b.n));
+      tbody.appendChild(tr);
+    });
+    tb.appendChild(tbody);
+    scroll.appendChild(tb);
+    panel.appendChild(scroll);
+  } else {
+    panel.appendChild(el("p","sub","Clean sweep — nothing missed on this one."));
+  }
+
+  const bar = el("div","poolbar");
+  const again = el("button","btn","Build another exam");
+  again.addEventListener("click", () => setMode("exam"));
+  bar.appendChild(again);
+  const retry = el("button","btn ghost","Retake the ones I missed");
+  retry.disabled = right === n;
+  retry.addEventListener("click", () => {
+    const ids = exam.items.filter(it => !it.correct).map(it => it.id);
+    exam = { items: shuffle(ids).map(id => ({id, state:{}, flagged:false})),
+             i:0, started:Date.now(), submitted:false };
+    viewExam();
+    window.scrollTo({top:0});
+  });
+  bar.appendChild(retry);
+  panel.appendChild(bar);
+  app.appendChild(panel);
+
+  /* full review */
+  app.appendChild(el("h2", null, "Review every question"));
+  const note = el("p","sub","Your answer is marked; the correct answer is outlined in green.");
+  note.style.marginBottom = "1.1rem";
+  app.appendChild(note);
+  exam.items.forEach((it, idx) => {
+    const q = byId(it.id);
+    app.appendChild(renderQuestion(q, {
+      mode: "review", label: String(idx+1), showSlide: true, state: it.state
+    }));
+  });
+}
+
+/* ---------------- mode switching ---------------- */
+function setMode(m){
+  document.querySelectorAll(".mode").forEach(b =>
+    b.setAttribute("aria-selected", String(b.dataset.mode === m)));
+  if(m === "exam") viewExamSetup(); else viewStudy();
+  window.scrollTo({top:0});
+}
+document.querySelectorAll(".mode").forEach(b =>
+  b.addEventListener("click", () => setMode(b.dataset.mode)));
+
+document.getElementById("wipe").addEventListener("click", () => {
+  if(!confirm("Clear your attempted-question history and exam scores on this device?")) return;
+  seen = new Set(); missed = new Set(); runs = [];
+  persist();
+  setMode(document.querySelector('.mode[aria-selected="true"]').dataset.mode);
+});
+
+document.getElementById("total").textContent = QUESTIONS.length;
+setMode("study");
+</script>
+</body>
+</html>
